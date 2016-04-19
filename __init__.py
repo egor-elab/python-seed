@@ -9,7 +9,6 @@ LOCALROOT = os.path.dirname(__file__)
 
 
 class USBDetector(InstrumentManagerPlugin):
-
     def __init__(self, path, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.path = os.path.join(LOCALROOT, path)
