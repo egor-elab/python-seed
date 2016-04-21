@@ -6,7 +6,7 @@ import subprocess
 
 from collections import deque
 from flask import Flask
-from flask_socketio import SocketIO, rooms, disconnect
+from flask_socketio import SocketIO, rooms, disconnect, emit
 from socketIO_client import LoggingNamespace, SocketIO as SocketIOClient
 import requests
 
@@ -21,7 +21,7 @@ def USBDetectorFactory(uri=None, cpath=None):
 
 
   def die():
-    io.emit('kill me', {})
+    io.emit('Hi', {})
 
   class USBDetector:
     def __init__(self, *args, **kwargs):
@@ -30,11 +30,6 @@ def USBDetectorFactory(uri=None, cpath=None):
       self.devices = devices
       self.rooms = roomsList
       self.die = die #callable
-
-    @app.route('/kill')
-    def kill():
-      print('told to kill')
-      io.emit('kill me', include_self=True)
 
     @io.on('connect')
     def connect():
@@ -59,7 +54,7 @@ def USBDetectorFactory(uri=None, cpath=None):
 
     @io.on('disconnect')
     def disconnecting():
-      print('disconnecting...')
+      print('disconnecting server...')
       disconnect() #emits disconnect message to all clients
       print('all clients are disconnected!')
       io.stop() #raise SystemExit which halts the server
@@ -110,7 +105,7 @@ def USBDetectorFactory(uri=None, cpath=None):
 if __name__ == '__main__':
   with USBDetectorFactory()() as usb:
     print("sleep")
-    time.sleep(10);
+    time.sleep(2);
     print("wakeup")
     print(usb.devices)
   print ('done')

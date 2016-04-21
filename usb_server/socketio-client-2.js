@@ -8,6 +8,7 @@ socket.on('connect', function () {
   console.log('connected');
   socket.emit('uplink', {'from': 'node'});
 
+
   /****** usb detection ******/
   usbDetect.on('add', function(device) {
     socket.emit('add', device);
@@ -21,19 +22,18 @@ socket.on('connect', function () {
 
 });
 
-socket.on('kill me', function(data) {
-  console.log('killing the server')
-  socket.emit('disconnect') //cheating
-});
-
 socket.on('disconnect', function() {
-  console.log('disconnecting...');
+  console.log('disconnecting client...');
   usbDetect.stopMonitoring();
   console.log('usb dtection disconnected successfully!');
   socket.disconnect(); //halts the client thread
   console.log('socket disconnected successfully!');
-  });
+});
 
 socket.on('downlink', function (data) {
+  console.log('downlink: ', data);
+});
+
+socket.on('Hi', function (data) {
   console.log('downlink: ', data);
 });
