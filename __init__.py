@@ -19,6 +19,8 @@ class USBDetector(InstrumentManagerPlugin):
                 if (not usb.empty):
                     port = json.loads(usb.pop())  # parse json here
                     print('port: ', port)
+
+                    '''
                     try:
                         inst = InstrumentFactory(port, self.timeout)
                     except (
@@ -35,3 +37,4 @@ class USBDetector(InstrumentManagerPlugin):
                         else:
                             print('got {}'.format(inst))
                             self.instruments[inst.name] = inst
+                    '''

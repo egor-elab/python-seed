@@ -21,8 +21,7 @@ def USBDetectorFactory(uri=None, cpath=None):
 
 
   def die():
-    print('kill me')
-    io.emit('kill me', {}) #cheating
+    io.emit('kill me', {})
 
   class USBDetector:
     def __init__(self, *args, **kwargs):
@@ -32,11 +31,10 @@ def USBDetectorFactory(uri=None, cpath=None):
       self.rooms = roomsList
       self.die = die #callable
 
-    #@app.route('/kill')
-    #def kill():
-     # print('told to kill')
-     # io.emit('die', include_self=True)
-      #io.emit('bye', include_self=True)
+    @app.route('/kill')
+    def kill():
+      print('told to kill')
+      io.emit('kill me', include_self=True)
 
     @io.on('connect')
     def connect():
@@ -76,17 +74,15 @@ def USBDetectorFactory(uri=None, cpath=None):
       return True
 
     def __enter__(self):
-      print("enter")
       self.start()
       return self
 
     def start(self):
-      print('starting')
       self.server_thread = threading.Thread(target=self.run_server)
       self.server_thread.start()
+
       self.client_thread = threading.Thread(target=self.run_client)
       self.client_thread.start()
-      print ('done starting')
 
     def run_server(self):
       print('running server')
@@ -99,7 +95,7 @@ def USBDetectorFactory(uri=None, cpath=None):
       print('done running client')
 
     def __exit__(self, type, value, traceback):
-      print('exit due to exception {}'.format(type))
+      print('usb detector exit due to exception {}'.format(type))
       self.close()
 
     def close(self):
