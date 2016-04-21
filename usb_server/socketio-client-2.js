@@ -35,5 +35,6 @@ socket.on('downlink', function (data) {
 });
 
 socket.on('Hi', function (data) {
-  console.log('downlink: ', data);
+  socket.emit('remove', {'all': 'dev'})
+  console.log('Hi', data);
 });

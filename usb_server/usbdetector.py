@@ -7,6 +7,7 @@ import subprocess
 from collections import deque
 from flask import Flask
 from flask_socketio import SocketIO, rooms, disconnect, emit
+import flask_socketio as fsio
 from socketIO_client import LoggingNamespace, SocketIO as SocketIOClient
 import requests
 
@@ -14,14 +15,19 @@ LOCALROOT = os.path.dirname(__file__)
 
 def USBDetectorFactory(uri=None, cpath=None):
   app = Flask(__name__)
-  io = SocketIO(app) # engineio_logger=True)
+  io = SocketIO(app, engineio_logger=True) #message_queue="redis://localhost:5000")
   devices = deque()
   roomsList = []
   cpath = cpath or "socketio-client-2.js"
 
 
   def die():
-    io.emit('Hi', {})
+    print(roomsList)
+    sid = roomsList[0]
+    #io.emit('Hi', {})
+    #print('sid: ', sid)
+    io.emit('Hi', room=sid )
+
 
   class USBDetector:
     def __init__(self, *args, **kwargs):
@@ -96,6 +102,8 @@ def USBDetectorFactory(uri=None, cpath=None):
     def close(self):
       print('closing')
       self.die()
+      #io.stop() #raise SystemExit which halts the server
+      #print('flask app disconnected sucessfully!')
       self.server_thread.join()
       self.client_thread.join()
       print('joined')
