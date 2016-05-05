@@ -1,7 +1,6 @@
 import os
 import json
 
-from instruments.factory import InstrumentFactory
 from instruments.plugins import InstrumentManagerPlugin
 from .usb_server.usbdetector import USBDetectorFactory
 
@@ -12,8 +11,10 @@ class USBDetector(InstrumentManagerPlugin):
     def __init__(self, path, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.path = os.path.join(LOCALROOT, path)
+        print('constructing usb detector class')
 
     def run(self):
+        print("starting usb detector class")
         with USBDetectorFactory(cpath=self.path)() as usb:
             while not self.halted.is_set():
                 if (not usb.empty):
