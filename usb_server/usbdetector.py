@@ -15,8 +15,9 @@ LOCALROOT = os.path.dirname(__file__)
 
 def USBDetectorFactory(uri=None, cpath=None):
   app = Flask(__name__)
-  io = SocketIO(app, engineio_logger=True) #message_queue="redis://localhost:5000")
-  devices = deque()
+  io = SocketIO(app) #,engineio_logger=True) #message_queue="redis://localhost:5000")
+  new_devices = deque()
+  removed_devices = deque()
   roomsList = []
   cpath = cpath or "socketio-client-2.js"
 
@@ -33,13 +34,14 @@ def USBDetectorFactory(uri=None, cpath=None):
     def __init__(self, *args, **kwargs):
       self.app = app
       self.io = io
-      self.devices = devices
+      self.new_devices = new_devices
+      self.removed_devices = removed_devices
       self.rooms = roomsList
       self.die = die #callable
 
     @io.on('connect')
     def connect():
-      print('connection established')
+      print('connection with the server established')
       io.emit('downlink', {'connection': 'good'})
       for rm in rooms():
         roomsList.append(rm)
@@ -51,12 +53,12 @@ def USBDetectorFactory(uri=None, cpath=None):
     @io.on('add')
     def add(device):
       print('server add event')
-      devices.append(device)
+      new_devices.append(device)
 
     @io.on('remove')
     def remove(device):
       print('server remove event')
-      devices.remove(device)
+      removed_devices.append(device)
 
     @io.on('disconnect')
     def disconnecting():
@@ -65,14 +67,6 @@ def USBDetectorFactory(uri=None, cpath=None):
       print('all clients are disconnected!')
       io.stop() #raise SystemExit which halts the server
       print('flask app disconnected sucessfully!')
-
-    def pop(self):
-      return self.devices.pop()
-
-    def empty(self):
-      if(len(self.devices)):
-        return False
-      return True
 
     def __enter__(self):
       self.start()
@@ -86,36 +80,32 @@ def USBDetectorFactory(uri=None, cpath=None):
       self.client_thread.start()
 
     def run_server(self):
-      print('running server')
       io.run(app)
       print('done running server')
 
     def run_client(self):
-      print('running client')
       subprocess.call("node "+cpath , shell=True) #move to new function
       print('done running client')
 
     def __exit__(self, type, value, traceback):
-      print('usb detector exit due to exception {}'.format(type))
+      if type == None:
+        print('usb detector exit due to exception {}'.format(type))
       self.close()
 
     def close(self):
-      print('closing')
-      self.die()
+      #self.die()
       #io.stop() #raise SystemExit which halts the server
-      #print('flask app disconnected sucessfully!')
-      self.server_thread.join()
+      print('ERROR: unable to shut down the server!')
       self.client_thread.join()
-      print('joined')
+      print('clients disconnected successfuly')
+      self.server_thread.join()
+      print('server disconnected successfuly')
 
   return USBDetector
 
 if __name__ == '__main__':
   with USBDetectorFactory()() as usb:
-    print("sleep")
     time.sleep(2);
-    print("wakeup")
-    print(usb.devices)
   print ('done')
 
 

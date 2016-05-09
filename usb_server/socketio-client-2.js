@@ -5,7 +5,7 @@ var usbDetect = require('usb-detection');
 
 /****** client.js ******/
 socket.on('connect', function () {
-  console.log('connected');
+  console.log('client is connected');
   socket.emit('uplink', {'from': 'node'});
 
 
