@@ -88,9 +88,10 @@ def USBDetectorFactory(uri=None, cpath=None):
       print('done running client')
 
     def __exit__(self, type, value, traceback):
-      if type == None:
+      if isinstance(value, Exception):
         print('usb detector exit due to exception {}'.format(type))
-      self.close()
+        raise
+      self.close() # this should be called before raise
 
     def close(self):
       #self.die()

@@ -20,7 +20,12 @@ class USBDetector(InstrumentManagerPlugin):
 
         with USBDetectorFactory(cpath=self.path)() as usb:
             while True: #not self.halted.is_set():
-                if (len(usb.new_devices) or len(usb.removed_devices)):
-                    print('new device port: ', port)
-                    #self.instrument_mgr.rescan(port)
+                if (len(usb.new_devices)):
+                    port_info = usb.new_devices.pop()
+                    self.instrument_mgr.instruments.add(port_info)
+
+                if (len(usb.removed_devices)):
+                    port_info = usb.removed_devices.pop()
+                    self.instrument_mgr.instruments.remove(port_info)
+
 
