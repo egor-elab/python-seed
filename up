@@ -1,0 +1,5 @@
+#!/bin/sh
+pushd nodejs
+npm start
+popd
+nameko run USBDetector

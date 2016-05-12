@@ -1,0 +1,5 @@
+#!/bin/sh
+pip install -U .
+pushd usb_server
+npm i
+popd
