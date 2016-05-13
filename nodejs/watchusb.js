@@ -1,40 +1,48 @@
-var io = require('socket.io-client') ; 
-var socket = io.connect('http://localhost:5000', {transports: ['websocket']});
+// var io = require('socket.io-client') ;
+// var socket = io.connect('http://localhost:5000', {transports: ['websocket']});
+var WebSocket = require('ws');
 var usbDetect = require('usb-detection');
 
+var socket = new WebSocket('ws://localhost:8000/ws');
 
-/****** client.js ******/
-socket.on('connect', function () {
+socket.onopen = function () {
   console.log('client is connected');
-  socket.emit('uplink', {'from': 'node'});
-
 
   /****** usb detection ******/
   usbDetect.on('add', function(device) {
-    socket.emit('add', device);
-    console.log('client add event');
+    console.log('adding ', device);
+    socket.send(
+      JSON.stringify(
+        {
+          method: 'add_device',
+          data: device
+        }
+      )
+    );
   });
+
 
   usbDetect.on('remove', function(device) {
-    socket.emit('remove', device);
-    console.log('client remove event');
+    console.log('removing ', device);
+    socket.send(
+      JSON.stringify(
+        {
+          method: 'remove_device',
+          data: device
+        }
+      )
+    );
   });
+};
 
-});
+socket.onmessage = function (msg) {
+  console.log('rxed: ', msg.data);
+};
 
-socket.on('disconnect', function() {
+socket.onclose = function () {
   console.log('disconnecting client...');
   usbDetect.stopMonitoring();
   console.log('usb dtection disconnected successfully!');
-  socket.disconnect(); //halts the client thread
-  console.log('socket disconnected successfully!');
-});
 
-socket.on('downlink', function (data) {
-  console.log('downlink: ', data);
-});
-
-socket.on('Hi', function (data) {
-  socket.emit('remove', {'all': 'dev'})
-  console.log('Hi', data);
-});
+  //socket.disconnect(); //halts the client thread
+};

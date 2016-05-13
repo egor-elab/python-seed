@@ -42,16 +42,16 @@ class SocketIOWsgiServer(WebServer):
 
 
 class SocketIOServer(SharedExtension, ProviderCollector):
-    wsgi_server = WebServer()
+    wsgi_server = SocketIOWsgiServer()
 
     def handle_request(self, request):
         context_data = self.wsgi_server.context_data_from_headers(request)
         return self.socketio_mainloop(context_data)
 
     def socketio_mainloop(self, initial_context_data):
-        def handler(sock):
-
-
+        def handler(ws):
+            pass
+        return WebSocketWSGI(self._socket.handler)
 
 class SocketIORpc(Entrypoint):
     server = SocketIOServer()

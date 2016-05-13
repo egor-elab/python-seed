@@ -2,4 +2,6 @@
 pushd nodejs
 npm start
 popd
+pushd USBDetector
 nameko run USBDetector
+popd

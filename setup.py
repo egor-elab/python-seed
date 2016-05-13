@@ -5,6 +5,11 @@ setup(
     install_requires=[
         'flask',
         'flask_socketio',
-	'nameko',
+        'nameko',
+    ],
+    tests_require=[
+        'pytest',
+        'pytest-asyncio',
+        'websockets',
     ],
 )

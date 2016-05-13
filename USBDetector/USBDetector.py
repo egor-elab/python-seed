@@ -1,5 +1,3 @@
-import json
-
 from nameko.extensions import DependencyProvider
 from nameko.web.websocket import WebSocketHubProvider, rpc
 
@@ -14,11 +12,20 @@ class ContainerIdentifier(DependencyProvider):
         return id(self.container)
 
 
+class InstrumentManagerProvider:
+    pass
+
+
 class USBDetector:
     name = 'USBDetector'
     config = Config()
     websocket_hub = WebSocketHubProvider()
+    instrument_mgr = InstrumentManagerProvider()
 
     @rpc
-    def subscribe(self, value):
-        return 'got subscription msg'
+    def add_device(self, socket_id, **port_info):
+        return self.instrument_mgr.instruments.add(port_info)
+
+    @rpc
+    def remove_device(self, socket_id, **port_info):
+        return self.instrument_mgr.instruments.remove(port_info)

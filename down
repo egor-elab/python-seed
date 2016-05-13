@@ -1,0 +1,5 @@
+#!/bin/sh
+nameko stop usbdetector:USBDetector
+pushd nodejs
+npm stop
+popd

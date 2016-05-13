@@ -1,5 +1,6 @@
 #!/bin/sh
-pip install -U .
-pushd usb_server
+source Scripts/activate
+pip install -U -e .
+pushd nodejs
 npm i
 popd
