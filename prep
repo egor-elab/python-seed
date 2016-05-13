@@ -1,5 +1,5 @@
 #!/bin/sh
-source Scripts/activate
+tox
 pip install -U -e .
 pushd nodejs
 npm i

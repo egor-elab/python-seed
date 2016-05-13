@@ -1,15 +1,10 @@
-from setuptools import setup
+from setuptools import setup, find_packages
 
 setup(
     name='USBDetector',
+    packages=find_packages(),
     install_requires=[
-        'flask',
-        'flask_socketio',
         'nameko',
     ],
-    tests_require=[
-        'pytest',
-        'pytest-asyncio',
-        'websockets',
-    ],
+    tests_require=['tox'],
 )

@@ -1,9 +1,6 @@
-import websockets
-
 import pytest
-from nameko.testing.services import replace_dependencies
-
 from USBDetector.USBDetector import Service
+from nameko.testing.services import replace_dependencies
 
 
 @pytest.fixture
