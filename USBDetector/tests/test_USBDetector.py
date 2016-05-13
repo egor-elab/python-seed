@@ -21,28 +21,40 @@ def websocket_client(websocket):
 @pytest.yield_fixture
 def container(container_factory, web_config):
     container = container_factory(Service, web_config)
+    container.start()
+    yield container
+
+
+instruments = {}
+
+
+@pytest.yield_fixture
+def instrument_mock(container_factory, web_config):
+    container = container_factory(Service, web_config)
+
+    def add(dev):
+        instruments[dev['deviceName']] = dev
+
+    def remove(dev):
+        removed = instruments.pop(dev['deviceName'])
+        return removed
+
+    mock = replace_dependencies(container, 'instruments')
+    mock.add = add
+    mock.remove = remove
+
+    container.start()
     yield container
 
 
 class TestUSBDetector:
     def test_connect(self, container, websocket):
-        container.start()
         websocket()
 
-    def test_add_remove(self, container, websocket_client):
-        _instruments = {}
-
-        mock_mgr = replace_dependencies(container, 'instruments')
-        mock_mgr.add.side_effect = lambda dev: _instruments.setdefault(dev['deviceName'], {})
-        mock_mgr.add.return_value = 'added'
-        mock_mgr.remove.side_effect = lambda dev: _instruments.pop(dev['deviceName'])
-        mock_mgr.remove.return_value = 'removed'
-
-        container.start()
-
+    def test_add_remove(self, instrument_mock, websocket_client):
         client = websocket_client()
         client.add('COM3')
         client.add('COM6')
         client.remove('COM3')
         client.add('COM8')
-        assert len(_instruments) == 2
+        assert len(instruments) == 2

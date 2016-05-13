@@ -1,4 +1,8 @@
 __pycache__/
+htmlcov/
 .cache/
+.tox/
 *.egg-info/
 node_modules/
+
+.coverage.*

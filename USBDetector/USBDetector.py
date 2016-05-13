@@ -8,11 +8,6 @@ class Config(DependencyProvider):
         return self.container.config
 
 
-class ContainerIdentifier(DependencyProvider):
-    def get_dependency(self, worker_ctx):
-        return id(self.container)
-
-
 class Service:
     name = 'USBDetector'
 
