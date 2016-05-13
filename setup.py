@@ -1,15 +1,11 @@
 from setuptools import setup, find_packages
 
 setup(
-#[[[cog
-#   import cog
-#   import json
-#   with open('scaffold.json', 'r') as f:
-#       config = json.load(f)
-#   cog.outl('name={}'.format(config['name']))
-#]]]
-name=seed
-#[[[end]]]
+    #[[[cog
+    #   cog.outl('name={}'.format(service_name))
+    #]]]
+    name=scaffolded
+    #[[[end]]]
     packages=find_packages(),
     install_requires=[
         'nameko',

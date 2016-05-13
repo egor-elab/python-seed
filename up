@@ -2,12 +2,10 @@
 #[[[cog
 #   import cog
 #   import json
-#   with open('scaffold.json', 'r') as f:
-#       config = json.load(f)
-#   cog.outl('pushd {}'.format(config['name']))
-#   cog.outl('nameko run {}'.format(config['name']))
+#   cog.outl('pushd {}'.format(service_name))
+#   cog.outl('nameko run {}'.format(service_name))
 #]]]
-pushd seed
-nameko run seed
+pushd scaffolded
+nameko run scaffolded
 #[[[end]]]
 popd
