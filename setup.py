@@ -4,8 +4,9 @@ setup(
 #[[[cog
 #   import cog
 #   import json
-#   config = json.load('scaffold.json')
-#   cog.outl('name={}'.format(config.name))
+#   with open('scaffold.json', 'r') as f:
+#       config = json.load(f)
+#   cog.outl('name={}'.format(config['name']))
 #]]]
 #[[[end]]]
     packages=find_packages(),
