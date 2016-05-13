@@ -1,6 +1,2 @@
 #!/bin/sh
 tox
-pip install -U -e .
-pushd nodejs
-npm i
-popd

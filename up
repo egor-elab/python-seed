@@ -1,7 +1,10 @@
 #!/bin/sh
-pushd nodejs
-npm start
-popd
-pushd USBDetector
-nameko run USBDetector
+#[[[cog
+#   import cog
+#   import json
+#   config = json.load('scaffold.json')
+#   cog.outl('pushd {}'.format(config.name))
+#   cog.outl('nameko run {}'.format(config.name))
+#]]]
+#[[[end]]]
 popd
