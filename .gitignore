@@ -1,0 +1,3 @@
+.cache/
+*.egg-info/
+node_modules/
