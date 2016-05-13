@@ -1,5 +1,3 @@
-// var io = require('socket.io-client') ;
-// var socket = io.connect('http://localhost:5000', {transports: ['websocket']});
 var WebSocket = require('ws');
 var usbDetect = require('usb-detection');
 

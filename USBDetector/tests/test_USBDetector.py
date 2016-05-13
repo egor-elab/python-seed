@@ -1,11 +1,9 @@
-import asyncio
-import json
 import websockets
 
 import pytest
-from nameko.testing.services import worker_factory
+from nameko.testing.services import replace_dependencies
 
-from USBDetector import USBDetector
+from USBDetector.USBDetector import Service
 
 
 @pytest.fixture
@@ -30,48 +28,40 @@ def instrument_mgr():
 @pytest.fixture
 def websocket_client():
     class Client:
-        async def __aenter__(self):
-            self.socket = await websockets.connect('ws://localhost:8000/ws')
-            return self
+        def __init__(self, websocket):
+            self.ws = websocket()
 
-        async def __aexit__(self, exc_type, exc_value, traceback):
-            pass
+        def add(self, name):
+            self.ws.rpc('add_device', deviceName=name)
 
-        async def add(name):
-            await websockets.send(json.dumps(dict(
-                deviceName=name
-            )))
+        async def remove(self, name):
+            self.ws.rpc('remove_device', deviceName=name)
 
-    return Client()
+    return Client
+
+
+@pytest.yield_fixture
+def container(container_factory, web_config):
+    container = container_factory(Service, web_config)
+    container.start()
+    yield container
 
 
 class TestUSBDetector:
-    @pytest.mark.asyncio
-    async def test_add_remove(self, instrument_mgr, websocket_client):
-        print('test add remove')
-        self.service = worker_factory(
-            USBDetector,
-            instrument_mgr=instrument_mgr
-        )
-        self.client = websocket_client()
+    def test_connect(self, container, websocket):
+        websocket()
 
-        async with self.client as client:
-            client.add('COM3')
-            client.add('COM6')
-            client.remove('COM3')
-            client.add('COM8')
-        assert len(self.service.instrument_mgr.instruments) == 2
+    # @pytest.mark.asyncio
+    # async def test_add_remove(self, container, instrument_mgr, websocket):
+    #     replace_dependencies(container,
+    #     self.service = worker_factory(
+    #         Service,
+    #         instrument_mgr=instrument_mgr
+    #     )
 
-# async def _add_remove(instrument_mgr, websocket_client):
-#     service = worker_factory(
-#         USBDetector,
-#         instrument_mgr=instrument_mgr
-#     )
-#     client = websocket_client()
-
-#     async with client as cl:
-#         cl.add('COM3')
-#         cl.add('COM6')
-#         cl.remove('COM3')
-#         cl.add('COM8')
-#     assert len(service.instrument_mgr.instruments) == 2
+    #     async with self.client as client:
+    #         client.add('COM3')
+    #         client.add('COM6')
+    #         client.remove('COM3')
+    #         client.add('COM8')
+    #     assert len(self.service.instrument_mgr.instruments) == 2
