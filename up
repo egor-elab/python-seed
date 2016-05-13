@@ -7,5 +7,7 @@
 #   cog.outl('pushd {}'.format(config['name']))
 #   cog.outl('nameko run {}'.format(config['name']))
 #]]]
+pushd seed
+nameko run seed
 #[[[end]]]
 popd

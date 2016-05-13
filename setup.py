@@ -8,6 +8,7 @@ setup(
 #       config = json.load(f)
 #   cog.outl('name={}'.format(config['name']))
 #]]]
+name=seed
 #[[[end]]]
     packages=find_packages(),
     install_requires=[

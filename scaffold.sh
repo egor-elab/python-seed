@@ -1,2 +1,2 @@
 #!/bin/sh
-python -m cogapp @template_files
+python -m cogapp -r @template_files
