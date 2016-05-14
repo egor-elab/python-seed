@@ -1,4 +1,5 @@
 Global python dependencies:
 cogapp
-tox
 coverage
+eventlet
+tox

@@ -1,2 +1,6 @@
 #!/bin/sh
+set -e
 tox
+mkproject .
+workon .
+pip install -U -e .
