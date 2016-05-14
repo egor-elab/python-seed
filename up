@@ -3,9 +3,9 @@
 #   import cog
 #   import json
 #   cog.outl('pushd {}'.format(service_name))
-#   cog.outl('nameko run {}'.format(service_name))
+#   cog.outl('nameko run {}.Service:Service'.format(service_name))
 #]]]
 pushd scaffolded
-nameko run scaffolded
+nameko run scaffolded.Service:Service
 #[[[end]]]
 popd

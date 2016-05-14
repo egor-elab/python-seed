@@ -1,6 +1,7 @@
 #!/bin/sh
 set -e
+
 tox
-mkproject .
-workon .
+virtualenv `pwd`
+source Scripts/activate
 pip install -U -e .
