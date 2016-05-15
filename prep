@@ -4,7 +4,6 @@ set -e
 source ./venv
 mkvirtualenv `pwd`
 workon .
-tox
 pip install -e .
 deactivate
 
