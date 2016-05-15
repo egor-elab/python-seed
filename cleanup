@@ -2,3 +2,5 @@
 
 source ./venv
 rmvirtualenv `pwd`
+
+rm .last_prep

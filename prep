@@ -1,4 +1,5 @@
 #!/bin/sh
+set -e
 
 source ./venv
 mkvirtualenv `pwd`
@@ -6,3 +7,5 @@ workon .
 tox
 pip install -e .
 deactivate
+
+git rev-parse HEAD > .last_prep
