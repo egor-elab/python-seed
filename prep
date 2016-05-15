@@ -1,7 +1,8 @@
 #!/bin/sh
-set -e
 
+source ./venv
+mkvirtualenv `pwd`
+workon .
 tox
-virtualenv `pwd`
-source Scripts/activate
-pip install -U -e .
+pip install -e .
+deactivate

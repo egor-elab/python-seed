@@ -1,1 +1,12 @@
 #!/bin/sh
+
+#[[[cog
+#   import cog
+#   import json
+#   cog.outl('pushd {}'.format(service_name))
+#]]]
+#[[[end]]]
+kill `cat .runnerpid`
+rm .runnerpid
+popd
+deactivate
