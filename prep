@@ -1,9 +1,11 @@
 #!/bin/sh
-set -e
 
 source ./venv
-mkvirtualenv `pwd`
-workon .
+#[[[cog
+#   import cog
+#   cog.outl('workon . || mkvirtualenv {}'.format(service_name))
+#]]]
+#[[[end]]]
 pip install -e .
 deactivate
 
