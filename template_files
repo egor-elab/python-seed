@@ -1,6 +1,5 @@
 setup.py
 tox.ini
 up
-seed/runner.py
 seed/Service.py
 seed/tests/test_seed.py
