@@ -9,7 +9,7 @@ class Config(DependencyProvider):
 class Service:
     #[[[cog
     #   import cog
-    #   cog.outl('name = "{}"'.format(service_name))
+    #   cog.outl("name = '{}'".format(service_name))
     #]]]
     name = "scaffolded"
     #[[[end]]]
