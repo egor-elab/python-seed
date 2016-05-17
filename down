@@ -9,4 +9,3 @@
 kill `cat .runnerpid`
 rm .runnerpid
 popd
-deactivate

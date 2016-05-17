@@ -8,6 +8,6 @@ workon .
 #   cog.outl('pushd {}'.format(service_name))
 #]]]
 #[[[end]]]
-nameko run Service &
+nameko run Service:Service &
 echo $! > .runnerpid
 popd
