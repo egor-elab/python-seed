@@ -5,6 +5,7 @@ for f in $(find ${1} -name '*seed*'); do mv $f ${f/seed/$1}; done
 
 source ./venv
 mkvirtualenv ${1}
+workon .
 pip install -e .
 pip install pytest
 deactivate
