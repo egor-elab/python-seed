@@ -1,11 +1,12 @@
 This repository is intended to be cloned to help you kickstart a new
 microservice. You should run:
-    git clone python-seed/.git
-    cd python-seed
+    git clone python-seed/.git yourservicename
+    cd yourservicename
     sh scaffold.sh yourservicename
+    git add -A
+    git commit
 
 Global python dependencies:
-    egor
     cogapp
     coverage
     eventlet
