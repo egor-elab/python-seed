@@ -7,7 +7,6 @@ source ./venv
 #]]]
 #[[[end]]]
 pip install -e .
-pip install -e ~/work/repos/services/egor/
 deactivate
 
 git rev-parse HEAD > .last_prep
