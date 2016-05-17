@@ -1,0 +1,2 @@
+-e git://github.com/egor-elab/egor.git#egg=egor
+-e .

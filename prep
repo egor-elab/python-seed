@@ -6,7 +6,7 @@ source ./venv
 #   cog.outl('workon . || mkvirtualenv {}'.format(service_name))
 #]]]
 #[[[end]]]
-pip install -e .
+pip install -r requirements.txt
 deactivate
 
 git rev-parse HEAD > .last_prep
