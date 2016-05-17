@@ -1,3 +1,3 @@
 export WORKON_HOME=~/.pyvenv/versions/
 mkdir -p $WORKON_HOME
-source `dirname \`which python\``/Scripts/virtualenvwrapper.sh
+source virtualenvwrapper.sh
