@@ -12,3 +12,5 @@ deactivate
 
 git remote rm origin
 git remote add seed git://github.com/egor-elab/python-seed.git
+git add -A
+git commit -m "seeded microservice '$1'"

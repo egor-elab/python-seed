@@ -6,6 +6,9 @@ microservice. You should run:
     git add -A
     git commit
 
+Life will be easiest if your service name is a valid Python module name, i.e.
+use underscores instead of spaces.
+
 Global python dependencies:
     cogapp
     coverage
